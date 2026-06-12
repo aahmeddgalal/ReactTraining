@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>chat bot</title>
+</head>
+
+<body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+
+
+        function ChatBot() {
+            return (
+                <div>
+                    <input 
+                        type="text" 
+                        placeholder="Type your message here..." />
+
+                    <input 
+                        type="submit" 
+                        value="Send" />
+                </div> //fragment, it is used to group multiple elements without adding an extra node to the DOM
+            );
+        }
+
+        function ChatMessage(props) { 
+            // props is an object that contains the properties passed to the component. It is used to pass data from a parent component to a child component.
+            const sender = props.sender;
+
+            //{ message, sender } = props; //destructuring assignment, it is used to extract values from objects and arrays and assign them to variables. It is a convenient way to extract multiple values from an object or array in a single statement. or you can is as the parameter of the function like this: function ChatMessage({ message, sender }) { ... }
+
+            /* if (sender === "user") {
+                return (
+                    <div>
+                        {props.message}
+                        <img src="user.png" alt="Icon" width="30" height="30" />
+                    </div>
+                );
+            } */ 
+
+
+                return (
+                    <div>
+                        {sender === "robot" && 
+                        (<img src="robot.png" alt="Icon" width="30" height="30" />)}
+
+                        {props.message}
+
+                        {sender === "user" && 
+                        (<img src="user.png" alt="Icon" width="30" height="30" />)}
+                    </div>
+                );
+
+            }
+
+            // we cann have a components inside another component, this is called composition. It is a powerful feature of React that allows us to build complex UIs from simple components. It also allows us to reuse components and make our code more modular and maintainable.
+            function App() {
+                return (
+                    <div>
+                        <ChatBot />
+                        <ChatMessage 
+                        message = "Hello, how can I help you?" 
+                        sender="user" />
+
+                        <ChatMessage 
+                        message = "I'm sorry, I didn't understand that." 
+                        sender="robot" />
+                    </div>
+                );
+            }
+
+
+
+        // it's better to create a separate component for the app and render it instead of rendering the div directly. This way, we can easily add more components to the app in the future without having to change the render method.
+        /* const app = (
+            <div>
+                <ChatBot />
+                <ChatMessage 
+                message = "Hello, how can I help you?" 
+                sender="user" />
+
+                <ChatMessage 
+                message = "I'm sorry, I didn't understand that." 
+                sender="robot" />
+            </div>
+        ); */ 
+
+
+
+        const container = document.querySelector('.js-container');
+        ReactDOM.createRoot(container).render(<App />);
+    </script>
+</body>
+
+</html>
