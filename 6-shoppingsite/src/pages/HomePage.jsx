@@ -1,16 +1,24 @@
 import axios from 'axios';
 import { Header } from '../components/Header'
-import { products } from '../../starting-code/data/products';
+import { useEffect, useState } from 'react';
 import "./HomePage.css";
 
 export function HomePage() {
-  axios.get("http://localhost:3000/api/products") // Asynchronous code =>> code that doesn't finish right away {request} {a promise}
+
+  const [products, setProducts] = useState([]); // Gives us an array of 2 values // is the starting valus of the products
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/products") // Asynchronous code =>> code that doesn't finish right away {request} {a promise}
       // now responce is not the data so we use the .json to get the data
       // gives us the data attached to the response and this is also a promise so we have to use (.then)
       // response.json().then((data) => {})
       .then((response) => {
-      response.data
-    })
+        setProducts(response.data);
+      });
+  }, []) //dependancy array if empty array this will let the code run onec and only once and that's what we want
+  // in the console it's run 2wice because of StrictMode and this helps use find bugs 
+
 
 
   return (
