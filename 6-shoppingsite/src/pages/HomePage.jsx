@@ -6,6 +6,7 @@ import "./HomePage.css";
 export function HomePage() {
 
   const [products, setProducts] = useState([]); // Gives us an array of 2 values // is the starting valus of the products
+  const [cart, setCart] = useState([])
 
   useEffect(() => {
     axios
@@ -16,6 +17,11 @@ export function HomePage() {
       .then((response) => {
         setProducts(response.data);
       });
+
+      axios.get("http://localhost:3000/api/cart-items")
+        .then((response) => {
+          setCart(response.data)
+        })
   }, []) //dependancy array if empty array this will let the code run onec and only once and that's what we want
   // in the console it's run 2wice because of StrictMode and this helps use find bugs 
 
@@ -23,7 +29,7 @@ export function HomePage() {
 
   return (
     <>
-      <Header />
+      <Header cart={cart} />
 
       <div className="home-page">
         <div className="products-grid">
