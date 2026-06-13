@@ -3,6 +3,15 @@ import { products } from '../../starting-code/data/products';
 import "./HomePage.css";
 
 export function HomePage() {
+  fetch("http://localhost:3000/api/products"); // Asynchronous code =>> code that doesn't finish right away {request} {a promise}
+    .then((response) => {
+      // now responce is not the data so we use the .json to get the data
+      // gives us the data attached to the response and this is also a promise so we have to use (.then)
+      response.json().then((data) => {
+      })
+    })
+
+
   return (
     <>
       <Header />
