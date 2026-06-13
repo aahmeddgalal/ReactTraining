@@ -10,7 +10,7 @@ export function HomePage() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/products") // Asynchronous code =>> code that doesn't finish right away {request} {a promise}
+      .get("/api/products") // Asynchronous code =>> code that doesn't finish right away {request} {a promise}
       // now responce is not the data so we use the .json to get the data
       // gives us the data attached to the response and this is also a promise so we have to use (.then)
       // response.json().then((data) => {})
@@ -18,7 +18,7 @@ export function HomePage() {
         setProducts(response.data);
       });
 
-      axios.get("http://localhost:3000/api/cart-items")
+      axios.get("/api/cart-items")
         .then((response) => {
           setCart(response.data)
         })
