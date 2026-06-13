@@ -2,11 +2,13 @@ import axios from 'axios';
 import { Header } from '../components/Header'
 import { useEffect, useState } from 'react';
 import "./HomePage.css";
+import { formatMoney } from '../utils/money.js'
 
-export function HomePage() {
+
+export function HomePage({ cart }) {
 
   const [products, setProducts] = useState([]); // Gives us an array of 2 values // is the starting valus of the products
-  const [cart, setCart] = useState([])
+
 
   useEffect(() => {
     axios
@@ -18,10 +20,7 @@ export function HomePage() {
         setProducts(response.data);
       });
 
-      axios.get("/api/cart-items")
-        .then((response) => {
-          setCart(response.data)
-        })
+      
   }, []) //dependancy array if empty array this will let the code run onec and only once and that's what we want
   // in the console it's run 2wice because of StrictMode and this helps use find bugs 
 
@@ -52,7 +51,7 @@ export function HomePage() {
                   <div className="product-rating-count link-primary">{product.rating.count}</div>
                 </div>
 
-                <div className="product-price">${(product.priceCents / 100).toFixed(2)}</div>
+                <div className="product-price">{formatMoney(product.priceCents)}</div> 
 
                 <div className="product-quantity-container">
                   <select>
