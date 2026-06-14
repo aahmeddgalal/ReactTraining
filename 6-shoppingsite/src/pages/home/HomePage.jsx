@@ -5,18 +5,19 @@ import "./HomePage.css";
 import { ProductsGrid } from "./ProductsGrid.jsx";
 
 
-export function HomePage({ cart }) {
+export function HomePage({ cart, loadCart }) {
   const [products, setProducts] = useState([]); // Gives us an array of 2 values // is the starting valus of the products
 
   useEffect( () => {
     const fetchHomeData = async () => {
       const response = await axios.get("/api/products") 
+      setProducts(response.data);
       // Asynchronous code =>> code that doesn't finish right away {request} {a promise}
       // now responce is not the data so we use the .json to get the data
       // gives us the data attached to the response and this is also a promise so we have to use (.then)
       // response.json().then((data) => {})
       // to not breaking the rules of useEffect we put a function inside it so it doesn't return a promise 
-        setProducts(response.data);
+        
     };
 
     fetchHomeData();
@@ -29,7 +30,7 @@ export function HomePage({ cart }) {
       <Header cart={cart} />
 
       <div className="home-page">
-        <ProductsGrid products = {products} />
+        <ProductsGrid products = {products} loadCart={loadCart} />
       </div>
     </>
   );
