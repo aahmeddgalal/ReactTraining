@@ -7,18 +7,18 @@ import axios from "axios";
 export function Product({product, loadCart}) {
   const [quantity, setQuantity] = useState(1); // starting value is 1 //we should put hooks alone not inside any
 
-    const addToCart = {async () => {
+    const addToCart = async () => {
         await axios.post("/api/cart-items", {
         productId: product.id,
         quantity,
         });
-        await loadCart();
-    }}
+        loadCart();
+    }
 
-    const selectQuantity = {(event) => {
+    const selectQuantity = (event) => {
         const quantitySelected = Number(event.target.value);
         setQuantity(quantitySelected);
-        }}
+        }
 
 
 
@@ -45,7 +45,7 @@ return (
     <div className="product-quantity-container">
     <select
         value={quantity}
-        onChange={selectQuantity()}
+        onChange={selectQuantity}
     >
         <option value="1">1</option>
         <option value="2">2</option>
@@ -69,7 +69,7 @@ return (
 
     <button
     className="add-to-cart-button button-primary"
-    onClick={addToCart()}>
+    onClick={addToCart}>
     Add to Cart
     </button>
 </div>
