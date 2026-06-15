@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
+import axios from 'axios'
 import { formatMoney } from "../../utils/money";
 
-export function OrderSummary({cart, deliveryOptions}) {
+export function OrderSummary({cart, deliveryOptions, loadCart}) {
     return (
     <div className="order-summary">
     {deliveryOptions.length > 0 &&
@@ -53,29 +54,38 @@ export function OrderSummary({cart, deliveryOptions}) {
                     priceString = `${formatMoney(deliveryOption.priceCents)} - Shipping`;
                     }
 
+                    const updateDeliveryOptions = async () => {
+                        await axios.put(`/api/cart-items/${cartItem.productId}`, {
+                            deliveryOptionId: deliveryOption.id
+                        });
+                        await loadCart();
+                    };
+
                     return (
                     <div
-                        key={deliveryOption.id}
-                        className="delivery-option"
+                    key={deliveryOption.id}
+                    className="delivery-option"
+                    onClick={updateDeliveryOptions}
                     >
-                        <input
+                    <input
                         type="radio"
                         checked={
-                            deliveryOption.id === cartItem.deliveryOptionId
+                        deliveryOption.id === cartItem.deliveryOptionId
                         }
+                        onChange={() => {}} 
                         className="delivery-option-input"
                         name={`delivery-option-${cartItem.productId}`}
-                        />
-                        <div>
+                    />
+                    <div>
                         <div className="delivery-option-date">
-                            {dayjs(
-                            deliveryOption.estimatedDeliveryTimeMS,
-                            ).format("dddd", "MMMM D")}
+                        {dayjs(
+                            deliveryOption.estimatedDeliveryTimeMs,
+                        ).format("dddd, MMMM D")}
                         </div>
                         <div className="delivery-option-price">
-                            {priceString}
+                        {priceString}
                         </div>
-                        </div>
+                    </div>
                     </div>
                     );
                 })}
